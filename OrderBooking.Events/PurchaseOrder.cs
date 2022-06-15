@@ -1,7 +1,7 @@
 ﻿namespace OrderBooking.Events
 {
-    public class Class1
+    public class PurchaseOrder 
     {
-
+    
     }
 }
