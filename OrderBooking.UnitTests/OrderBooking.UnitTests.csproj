@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\OrderBooking.ReadModel\OrderBooking.Projections.csproj" />
     <ProjectReference Include="..\OrderBooking\OrderBooking.csproj" />
   </ItemGroup>
 
