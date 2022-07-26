@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderBooking", "OrderBookin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderBooking.UnitTests", "OrderBooking.UnitTests\OrderBooking.UnitTests.csproj", "{6E9CFC07-5951-4332-8608-F4B538402942}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderBooking.Projections", "OrderBooking.ReadModel\OrderBooking.Projections.csproj", "{A09CFE7B-C255-4F33-8C3D-2D4EF0BF1DC6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderBooking.Projections", "OrderBooking.ReadModel\OrderBooking.Projections.csproj", "{A09CFE7B-C255-4F33-8C3D-2D4EF0BF1DC6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderBooking.Events.IntegrationTests", "OrderBooking.Events.IntegrationTests\OrderBooking.Events.IntegrationTests.csproj", "{92BA9698-6608-456A-BBED-51CEB5C11362}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{A09CFE7B-C255-4F33-8C3D-2D4EF0BF1DC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A09CFE7B-C255-4F33-8C3D-2D4EF0BF1DC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A09CFE7B-C255-4F33-8C3D-2D4EF0BF1DC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92BA9698-6608-456A-BBED-51CEB5C11362}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92BA9698-6608-456A-BBED-51CEB5C11362}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92BA9698-6608-456A-BBED-51CEB5C11362}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92BA9698-6608-456A-BBED-51CEB5C11362}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
