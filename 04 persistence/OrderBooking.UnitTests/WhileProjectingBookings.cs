@@ -1,5 +1,6 @@
 ﻿using MessageHandler.EventSourcing.Contracts;
 using MessageHandler.EventSourcing.Projections;
+using MessageHandler.EventSourcing.Testing;
 using OrderBooking.Events;
 using OrderBooking.Projections;
 using Xunit;
@@ -22,7 +23,7 @@ namespace OrderBooking.UnitTests
             var booking = new Booking();
 
             // when
-            var invoker = new ProjectionInvoker<Booking>(new BookingProjection());
+            var invoker = new TestProjectionInvoker<Booking>(new BookingProjection());
             invoker.Invoke(booking, history);
 
             // then
@@ -47,7 +48,7 @@ namespace OrderBooking.UnitTests
             var booking = new Booking();
 
             // when
-            var invoker = new ProjectionInvoker<Booking>(new BookingProjection());
+            var invoker = new TestProjectionInvoker<Booking>(new BookingProjection());
             invoker.Invoke(booking, history);
 
             // then

@@ -25,4 +25,8 @@
     <ProjectReference Include="..\OrderBooking\OrderBooking.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<PackageReference Include="MessageHandler.EventSourcing.Testing" Version="4.0.0-beta19" />
+	</ItemGroup>
+	
 </Project>
