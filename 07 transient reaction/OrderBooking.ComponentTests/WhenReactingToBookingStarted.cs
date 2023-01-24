@@ -17,7 +17,6 @@ namespace OrderBooking.ComponentTests
         public async Task GivenBookingStarted_WhenNotifyingTheSeller_ShouldForwardMessageToSignal()
         {
             // given
-            var sellerId = "all";
             var bookingStarted = new BookingStarted();
 
             // mock signalr
@@ -25,7 +24,7 @@ namespace OrderBooking.ComponentTests
             mockGroups.Setup(_ => _.SendCoreAsync("Notify", It.Is<object?[]>(o => o.Contains(bookingStarted)), It.IsAny<CancellationToken>())).Verifiable();
 
             var mockClients = new Mock<IHubClients>();
-            mockClients.Setup(_ => _.Group(sellerId)).Returns(mockGroups.Object).Verifiable();
+            mockClients.Setup(_ => _.Group("all")).Returns(mockGroups.Object).Verifiable();
 
             Mock<IHubContext<EventsHub>> mockContext = new Mock<IHubContext<EventsHub>>();
             mockContext.Setup(_ => _.Clients).Returns(mockClients.Object).Verifiable();            
