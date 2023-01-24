@@ -22,8 +22,7 @@ namespace OrderBooking
 
             Emit(new BookingStarted()
             {
-                PurchaseOrder = purchaseOrder,
-                TenantId = "all"
+                PurchaseOrder = purchaseOrder
             });
         }
 

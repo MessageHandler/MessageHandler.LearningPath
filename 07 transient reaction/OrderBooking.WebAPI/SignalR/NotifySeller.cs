@@ -17,10 +17,7 @@ namespace OrderBooking.WebAPI.SignalR
             var tasks = new List<Task>();
             foreach (var e in events)
             {
-                if (e.TenantId != null)
-                {
-                    tasks.Add(_context.Clients.Group(e.TenantId).SendAsync("Notify", e));
-                }
+                tasks.Add(_context.Clients.Group("all").SendAsync("Notify", e));
             }            
             return Task.WhenAll(tasks);
         }
