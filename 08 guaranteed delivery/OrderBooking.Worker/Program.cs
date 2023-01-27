@@ -8,6 +8,8 @@ IHost host = Host.CreateDefaultBuilder(args)
     {
         services.AddLogging();
 
+        services.AddPostmark();
+
         services.AddMessageHandler("orderbooking.worker", runtimeConfiguration =>
         {
             var serviceBusConnectionString = hostContext.Configuration.GetValue<string>("ServiceBusConnectionString")

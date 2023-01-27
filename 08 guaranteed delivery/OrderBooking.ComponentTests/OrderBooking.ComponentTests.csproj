@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OrderBooking.WebAPI\OrderBooking.WebAPI.csproj" />
+    <ProjectReference Include="..\OrderBooking.Worker\OrderBooking.Worker.csproj" />
   </ItemGroup>
 
 </Project>

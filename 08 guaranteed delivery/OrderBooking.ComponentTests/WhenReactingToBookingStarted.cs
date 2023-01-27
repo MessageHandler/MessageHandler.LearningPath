@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.SignalR;
 using Moq;
 using OrderBooking.Events;
 using OrderBooking.WebAPI.SignalR;
+using OrderBooking.Worker;
 using System;
 using System.Linq;
 using System.Threading;
@@ -37,6 +38,24 @@ namespace OrderBooking.ComponentTests
             mockClients.Verify();
             mockGroups.Verify();
             mockContext.Verify();
+        }
+
+        [Fact]
+        public async Task GivenBookingStarted_WhenNotifyingTheSeller_ShouldSendAnEmailToTheSeller()
+        {
+            // given
+            var bookingStarted = new BookingStarted();
+
+            // mock email
+            var mockEmailSender = new Mock<ISendEmails>();
+            mockEmailSender.Setup(_ => _.SendAsync("sender@seller.com", "seller@seller.com", "New purchase order", "A new purchase order is available for approval")).Verifiable();
+
+            //when
+            var reaction = new SendNotificationMail(mockEmailSender.Object);
+            await reaction.Handle(bookingStarted, null);
+
+            // Then
+            mockEmailSender.Verify();
         }
 
     }
