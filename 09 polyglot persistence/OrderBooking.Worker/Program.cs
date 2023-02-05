@@ -26,8 +26,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddSearch(searchEndpoint, apiKey);
 
         services.AddMessageHandler("orderbooking.worker", runtimeConfiguration =>
-        {
-            
+        {            
             runtimeConfiguration.AtomicProcessingPipeline(pipeline =>
             {
                 pipeline.PullMessagesFrom(p => p.Topic(name: "orderbooking.events", subscription: "orderbooking.worker", serviceBusConnectionString));

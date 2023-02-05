@@ -5,11 +5,6 @@ namespace OrderBooking.Worker
 {
     public static class SearchClientExtensions
     {
-        public static async Task Persist(this SearchClient client, SalesOrder salesOrder)
-        {
-            await client.MergeOrUploadDocumentsAsync(new[] { salesOrder });
-        }
-
         public static async Task<SalesOrder> GetOrCreateSalesOrderAsync(this SearchClient client, string orderId)
         {
             var order = default(SalesOrder);
@@ -25,6 +20,11 @@ namespace OrderBooking.Worker
                 }
             }
             return order!;
+        }
+
+        public static async Task Persist(this SearchClient client, SalesOrder salesOrder)
+        {
+            await client.MergeOrUploadDocumentsAsync(new[] { salesOrder });
         }
     }
 }
