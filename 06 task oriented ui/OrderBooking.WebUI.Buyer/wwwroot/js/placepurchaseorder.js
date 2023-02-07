@@ -53,10 +53,11 @@
         let bookingId = crypto.randomUUID();
 
         let cmd = {
-            purchaseOrder: {
-                bookingId: bookingId,
+            bookingId: bookingId,
+            name: "Mr. Buyer",
+            purchaseOrder: {                
                 amount: event.target.querySelector("#amount").valueAsNumber
-            }            
+            }
         }
         let uri = "https://localhost:7100/api/orderbooking/" + bookingId;
 
