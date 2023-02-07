@@ -19,7 +19,7 @@ namespace OrderBooking.WebAPI.Controllers
         {
             var booking = await repository.Get(bookingId);
 
-            booking.PlacePurchaseOrder(command.PurchaseOrder);
+            booking.PlacePurchaseOrder(command.PurchaseOrder, command.Name);
 
             await repository.Flush();
 
