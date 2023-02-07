@@ -4,5 +4,6 @@ namespace OrderBooking.Events
 {
     public class SalesOrderConfirmed : SourcedEvent
     {
+        public string BookingId { get; set; } = string.Empty;
     }
 }
