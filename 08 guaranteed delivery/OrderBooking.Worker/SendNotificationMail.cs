@@ -8,7 +8,7 @@ namespace OrderBooking.Worker
         private readonly ILogger<SendNotificationMail> logger;
         private readonly ISendEmails emailSender;
 
-        public SendNotificationMail(ISendEmails emailSender, ILogger<SendNotificationMail> logger = null)
+        public SendNotificationMail(ISendEmails emailSender, ILogger<SendNotificationMail> logger = null!)
         {
             this.logger = logger;
             this.emailSender = emailSender;
