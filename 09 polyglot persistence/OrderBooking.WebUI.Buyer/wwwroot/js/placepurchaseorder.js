@@ -53,9 +53,9 @@
         let bookingId = crypto.randomUUID();
 
         let cmd = {
+            bookingId: bookingId,
             name: "Mr. Buyer",
-            purchaseOrder: {
-                bookingId: bookingId,
+            purchaseOrder: {                
                 amount: event.target.querySelector("#amount").valueAsNumber
             }            
         }
