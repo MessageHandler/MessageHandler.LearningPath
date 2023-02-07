@@ -22,7 +22,7 @@ namespace OrderBooking.Worker
         {
             _logger?.LogInformation("Received BookingStarted, indexing the sales order...");
 
-            var salesOrder = await _client.GetOrCreateSalesOrderAsync(message.Id);
+            var salesOrder = await _client.GetOrCreateSalesOrderAsync(message.BookingId);
 
             _projection.Invoke(salesOrder, message);
 

@@ -55,7 +55,9 @@ namespace OrderBooking.UnitTests
             var pendingEvents = booking.Commit();
             var bookingStarted = (BookingStarted) pendingEvents.First(e => typeof(BookingStarted).IsAssignableFrom(e.GetType()));
 
+            Assert.NotNull(bookingStarted.BookingId);
             Assert.NotNull(bookingStarted.PurchaseOrder);
+            Assert.NotNull(bookingStarted.Name);
         }
     }
 

@@ -22,7 +22,7 @@ namespace OrderBooking
 
             Emit(new BookingStarted()
             {
-                Id = Id,
+                BookingId = Id,
                 Name = name,
                 PurchaseOrder = purchaseOrder
             });
