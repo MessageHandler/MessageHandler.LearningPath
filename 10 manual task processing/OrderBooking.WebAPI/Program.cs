@@ -4,6 +4,7 @@ using MessageHandler.EventSourcing.Outbox;
 using MessageHandler.Runtime;
 using MessageHandler.Runtime.AtomicProcessing;
 using OrderBooking.Projections;
+using OrderBooking.WebAPI;
 using OrderBooking.WebAPI.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,13 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+var searchEndpoint = builder.Configuration.GetValue<string>("SearchEndpoint")
+                           ?? throw new Exception("No 'SearchEndpoint' connection string was provided. Use User Secrets or specify via environment variable.");
+var apiKey = builder.Configuration.GetValue<string>("SearchApiKey")
+             ?? throw new Exception("No 'azuresearchapikey' connection string was provided. Use User Secrets or specify via environment variable.");
+
+builder.Services.AddSearch(searchEndpoint, apiKey);
 
 builder.Services.AddMessageHandler("orderbooking", runtimeConfiguration =>
 {
