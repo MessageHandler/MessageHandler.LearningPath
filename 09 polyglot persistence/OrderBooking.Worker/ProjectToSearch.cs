@@ -10,6 +10,7 @@ namespace OrderBooking.Worker
         public void Project(SalesOrder salesOrder, BookingStarted msg)
         {
             salesOrder.Name = msg.Name;
+            salesOrder.Amount = msg.PurchaseOrder?.Amount ?? 0;
             salesOrder.Status = "Pending";
         }
 

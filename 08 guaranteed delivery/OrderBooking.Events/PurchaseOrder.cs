@@ -2,6 +2,6 @@
 {
     public class PurchaseOrder 
     {
-    
+        public int Amount { get; set; }
     }
 }
