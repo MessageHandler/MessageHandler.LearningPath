@@ -13,5 +13,8 @@ namespace OrderBooking.WebAPI
 
         [SimpleField(IsFilterable = true, IsSortable = true)]
         public string Status { get; set; } = string.Empty;
+
+        [SimpleField(IsSortable = true)]
+        public int Amount { get; set; }
     }
 }
