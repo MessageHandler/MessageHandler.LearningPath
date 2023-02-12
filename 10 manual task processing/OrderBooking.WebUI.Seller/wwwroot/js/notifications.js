@@ -22,6 +22,10 @@
               left: 50%; 
               bottom: 30px; 
             }
+
+            .toast a {
+              color: #fff;
+            }
            
             .toast.show {
               visibility: visible; 
@@ -68,6 +72,13 @@
         await this.start();
 
         this.connection.on("Notify", (event) => {
+            if (event.purchaseOrder) {
+                this.toast.innerHTML = `A new purchase order is available for approval. <a href=".">refresh</a>`;
+            }
+            else {
+                this.toast.innerHTML = `A  purchase order is approved. <a href=".">refresh</a>`;
+            }
+
             this.render();
         });
 
@@ -83,7 +94,7 @@
     };
 
     render() {
-        this.toast.innerHTML = "A new purchase order is available for approval.";
+        
         this.toast.classList.add("show");
         setTimeout(() => this.toast.classList.remove("show"), 10000);
     }

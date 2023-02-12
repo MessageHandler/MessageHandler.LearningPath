@@ -46,6 +46,7 @@ IHost host = Host.CreateDefaultBuilder(args)
                 pipeline.PullMessagesFrom(p => p.Topic(name: "orderbooking.events", subscription: "orderbooking.indexing", serviceBusConnectionString));
                 pipeline.DetectTypesInAssembly(typeof(BookingStarted).Assembly);
                 pipeline.HandleMessagesWith<IndexSalesOrder>();
+                pipeline.HandleMessagesWith<IndexConfirmedSalesOrder>();
             });
         });
     })

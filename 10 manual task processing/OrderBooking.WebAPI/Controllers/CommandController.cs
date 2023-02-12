@@ -25,5 +25,17 @@ namespace OrderBooking.WebAPI.Controllers
 
             return Ok();
         }
+
+        [HttpPut("{bookingId}/confirm")]
+        public async Task<IActionResult> Confirm([FromRoute] string bookingId, [FromBody] ConfirmSalesOrder command)
+        {
+            var booking = await repository.Get(bookingId);
+
+            booking.ConfirmSalesOrder();
+
+            await repository.Flush();
+
+            return Ok();
+        }
     }
 }

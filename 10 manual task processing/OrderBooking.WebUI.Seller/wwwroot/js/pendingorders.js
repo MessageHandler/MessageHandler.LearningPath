@@ -17,7 +17,7 @@
         this.rowTemplate = `<tr>
                                 <td class="text-amount"></td>
                                 <td class="text-name"></td>
-                                <td></td>
+                                <td><confirm-sales-order></confirm-sales-order></td>
                             </tr>`;
     }
 
@@ -60,6 +60,11 @@
 
             var name = row.querySelector(".text-name");
             name.innerHTML = order.name;
+
+            var action = row.querySelector("confirm-sales-order");
+            action.setAttribute("data-order-id", order.id)
+
+            action.addEventListener("confirmed", () => row.remove());
 
             table.append(row);
         }

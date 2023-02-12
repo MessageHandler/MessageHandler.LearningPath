@@ -4,9 +4,11 @@ using OrderBooking.Events;
 namespace OrderBooking
 {
     public class OrderBooking : EventSourced,
-        IApply<BookingStarted>
+        IApply<BookingStarted>,
+        IApply<SalesOrderConfirmed>
     {
         private bool _allreadyStarted;
+        private bool _confirmed;
 
         public OrderBooking() : this(Guid.NewGuid().ToString())
         {
@@ -28,9 +30,24 @@ namespace OrderBooking
             });
         }
 
+        public void ConfirmSalesOrder()
+        {
+            if (_confirmed) return;
+
+            Emit(new SalesOrderConfirmed()
+            {
+                BookingId = Id
+            });
+        }
+
         public void Apply(BookingStarted msg)
         {
             _allreadyStarted = true;
+        }
+
+        public void Apply(SalesOrderConfirmed msg)
+        {
+            _confirmed = true;
         }
     }
 }
