@@ -7,7 +7,7 @@
     }
 
     static get observedAttributes() {
-        return ['data-booking-id'];
+        return ['data-order-id'];
     }
 
     get orderId() {
