@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>f697baee-03aa-4270-8949-cfb3f609ce73</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+	 <PackageReference Include="MessageHandler.EventSourcing.AzureTableStorage" Version="4.0.0-beta20" />
+	 <PackageReference Include="MessageHandler.EventSourcing.Outbox" Version="4.0.0-beta20" />
+	 <PackageReference Include="Azure.Search.Documents" Version="11.4.0" />
+   </ItemGroup>
+
+   <ItemGroup>
+     <ProjectReference Include="..\OrderBooking.ReadModel\OrderBooking.Projections.csproj" />
+     <ProjectReference Include="..\OrderBooking\OrderBooking.csproj" />
+   </ItemGroup>
+	
+</Project>
