@@ -14,6 +14,7 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
 	<PackageReference Include="MessageHandler.Runtime.AtomicProcessing" Version="4.0.0-beta20" />
 	<PackageReference Include="Postmark" Version="4.7.6" />
+	<PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
   </ItemGroup>
 
   <ItemGroup>

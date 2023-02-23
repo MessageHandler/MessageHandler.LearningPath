@@ -25,6 +25,12 @@ IHost host = Host.CreateDefaultBuilder(args)
 
         services.AddSearch(searchEndpoint, apiKey);
 
+        var sqlServerConnectionString = hostContext.Configuration.GetValue<string>("SqlServerConnectionString")
+                               ?? throw new Exception("No 'SqlServerConnectionString' was provided. Use User Secrets or specify via environment variable.");
+
+        services.AddSingleton<IProcessAvailableConfirmationMails>(new AvailableConfirmationMails(sqlServerConnectionString));
+        services.AddHostedService<SendConfirmationMail>();
+
         services.AddMessageHandler("orderbooking.worker", runtimeConfiguration =>
         {            
             runtimeConfiguration.AtomicProcessingPipeline(pipeline =>
