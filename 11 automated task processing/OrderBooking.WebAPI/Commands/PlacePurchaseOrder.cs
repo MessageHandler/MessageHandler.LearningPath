@@ -6,6 +6,8 @@ namespace OrderBooking.WebAPI.Controllers
     {
         public string BookingId { get; set; } = string.Empty;
 
+        public string BuyerId { get; set; } = string.Empty;
+
         public string Name { get; set; } = string.Empty;
 
         public PurchaseOrder PurchaseOrder { get; set; } = new PurchaseOrder();

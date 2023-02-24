@@ -18,13 +18,14 @@ namespace OrderBooking
         {
         }
 
-        public void PlacePurchaseOrder(PurchaseOrder purchaseOrder, string name)
+        public void PlacePurchaseOrder(PurchaseOrder purchaseOrder, string buyerId, string name)
         {
             if (_allreadyStarted) return;
 
             Emit(new BookingStarted()
             {
                 BookingId = Id,
+                BuyerId = buyerId,
                 Name = name,
                 PurchaseOrder = purchaseOrder
             });

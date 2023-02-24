@@ -28,6 +28,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         var sqlServerConnectionString = hostContext.Configuration.GetValue<string>("SqlServerConnectionString")
                                ?? throw new Exception("No 'SqlServerConnectionString' was provided. Use User Secrets or specify via environment variable.");
 
+        services.AddSingleton<IPersistConfirmationMails>(new PersistConfirmationMailsToSqlServer(sqlServerConnectionString));
         services.AddSingleton<IProcessAvailableConfirmationMails>(new AvailableConfirmationMails(sqlServerConnectionString));
         services.AddHostedService<SendConfirmationMail>();
 
@@ -41,11 +42,15 @@ IHost host = Host.CreateDefaultBuilder(args)
             });
 
             runtimeConfiguration.EventSourcing(source =>
-            {                
+            {
                 source.Stream("OrderBooking",
                     from => from.AzureTableStorage(storageConnectionString, "OrderBooking"),
-                    into => into.Projection<ProjectToSearch>());                
-            });
+                    into => {
+                        into.Projection<ProjectToSearch>();
+                        into.Projection<ProjectConfirmationMail>();
+                    });
+                   
+        });
 
             runtimeConfiguration.AtomicProcessingPipeline(pipeline =>
             {
@@ -53,6 +58,14 @@ IHost host = Host.CreateDefaultBuilder(args)
                 pipeline.DetectTypesInAssembly(typeof(BookingStarted).Assembly);
                 pipeline.HandleMessagesWith<IndexSalesOrder>();
                 pipeline.HandleMessagesWith<IndexConfirmedSalesOrder>();
+            });
+
+            runtimeConfiguration.AtomicProcessingPipeline(pipeline =>
+            {
+                pipeline.PullMessagesFrom(p => p.Topic(name: "orderbooking.events", subscription: "orderconfirmation.indexing", serviceBusConnectionString));
+                pipeline.DetectTypesInAssembly(typeof(BookingStarted).Assembly);
+                pipeline.HandleMessagesWith<IndexConfirmationMail>();
+                pipeline.HandleMessagesWith<SetConfirmationMailAsPending>();
             });
         });
     })
