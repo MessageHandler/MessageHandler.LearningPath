@@ -5,11 +5,16 @@
     <title></title>
 
     <script src='/js/booking.js' type="module"></script>
+    <script src='/js/setconfirmationmail.js' type="module"></script>
 </head>
 <body>
     <h1>Thank you for your order</h1>
     <div>
         Your purchase order has been received and is being processed, the booking currently has status: <booking-state></booking-state>
+    </div>
+    <div>
+        <h2>Want a confirmation email?</h2>
+        <set-confirmation-email data-redirect-uri="/preferences/"></set-confirmation-email>
     </div>
 </body>
 </html>

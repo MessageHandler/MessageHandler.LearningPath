@@ -12,11 +12,11 @@ namespace OrderBooking.Worker
             this.connectionstring = connectionstring;
         }
 
-        private readonly string startProcessingSqlCommand = 
+        private readonly string startProcessingSqlCommand =
 @"WITH task AS (
-SELECT TOP(1) [dbo].[SalesOrderConfirmations].*, [dbo].[NotificicationPreferences].EmailAddress as BuyerEmailAddress
+SELECT TOP(1) [dbo].[SalesOrderConfirmations].*, [dbo].[NotificationPreferences].EmailAddress as BuyerEmailAddress
 FROM[dbo].[SalesOrderConfirmations]
-        INNER JOIN[dbo].[NotificicationPreferences] on[dbo].[SalesOrderConfirmations].[BuyerId] = [dbo].[NotificicationPreferences].[BuyerId]
+        INNER JOIN[dbo].[NotificationPreferences] on[dbo].[SalesOrderConfirmations].[BuyerId] = [dbo].[NotificationPreferences].[BuyerId]
         WHERE[dbo].[SalesOrderConfirmations].[Status] = 'Pending')
 UPDATE task
 SET [Status] = 'Processing'

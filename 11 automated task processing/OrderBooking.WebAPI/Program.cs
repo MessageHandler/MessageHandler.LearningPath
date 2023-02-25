@@ -47,6 +47,24 @@ builder.Services.AddMessageHandler("orderbooking", runtimeConfiguration =>
                 into.Projection<BookingProjection>();
             });
     });
+
+    runtimeConfiguration.EventSourcing(source =>
+    {
+        source.Stream(nameof(NotificationPreferences.NotificationPreferences),
+            from => from.AzureTableStorage(storageConnectionString, nameof(NotificationPreferences.NotificationPreferences)),
+            into =>
+            {
+                into.Aggregate<NotificationPreferences.NotificationPreferences>()
+                    .EnableTransientChannel<NotifySeller>()
+                    .EnableOutbox("NotificationPreferences", "orderbooking.webapi", pipeline =>
+                    {
+                        pipeline.RouteMessages(to => to.Topic("notificationpreferences.events", serviceBusConnectionString));
+                    });
+
+                into.Projection<BookingProjection>();
+
+            });
+    });
 });
 
 builder.Services.AddSignalR();

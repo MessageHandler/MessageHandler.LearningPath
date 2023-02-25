@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NotificationPreferences.Events\NotificationPreferences.Events.csproj" />
     <ProjectReference Include="..\OrderBooking.Events\OrderBooking.Events.csproj" />
   </ItemGroup>
 </Project>

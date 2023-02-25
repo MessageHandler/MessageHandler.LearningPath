@@ -7,8 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\preferences\index.html" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\booking\index.html" />
     <None Include="wwwroot\index.html" />
+    <None Include="wwwroot\preferences\index.html" />
   </ItemGroup>
 
 </Project>

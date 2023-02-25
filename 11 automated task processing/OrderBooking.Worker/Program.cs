@@ -2,6 +2,7 @@ using MessageHandler.EventSourcing;
 using MessageHandler.EventSourcing.AzureTableStorage;
 using MessageHandler.Runtime;
 using MessageHandler.Runtime.AtomicProcessing;
+using NotificationPreferences.Events;
 using OrderBooking.Events;
 using OrderBooking.Worker;
 
@@ -28,6 +29,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         var sqlServerConnectionString = hostContext.Configuration.GetValue<string>("SqlServerConnectionString")
                                ?? throw new Exception("No 'SqlServerConnectionString' was provided. Use User Secrets or specify via environment variable.");
 
+        services.AddSingleton<IPersistNotificationPreferences>(new PersistNotificationPreferencesToSqlServer(sqlServerConnectionString));
         services.AddSingleton<IPersistConfirmationMails>(new PersistConfirmationMailsToSqlServer(sqlServerConnectionString));
         services.AddSingleton<IProcessAvailableConfirmationMails>(new AvailableConfirmationMails(sqlServerConnectionString));
         services.AddHostedService<SendConfirmationMail>();
@@ -48,8 +50,8 @@ IHost host = Host.CreateDefaultBuilder(args)
                     into => {
                         into.Projection<ProjectToSearch>();
                         into.Projection<ProjectConfirmationMail>();
+                        into.Projection<ProjectNotificationPreferences>();
                     });
-                   
             });
 
             runtimeConfiguration.AtomicProcessingPipeline(pipeline =>
@@ -66,6 +68,13 @@ IHost host = Host.CreateDefaultBuilder(args)
                 pipeline.DetectTypesInAssembly(typeof(BookingStarted).Assembly);
                 pipeline.HandleMessagesWith<IndexConfirmationMail>();
                 pipeline.HandleMessagesWith<SetConfirmationMailAsPending>();
+            });
+
+            runtimeConfiguration.AtomicProcessingPipeline(pipeline =>
+            {
+                pipeline.PullMessagesFrom(p => p.Topic(name: "notificationpreferences.events", subscription: "notificationpreferences.indexing", serviceBusConnectionString));
+                pipeline.DetectTypesInAssembly(typeof(ConfirmationEmailSet).Assembly);
+                pipeline.HandleMessagesWith<IndexNotificationPreferences>();
             });
         });
     })
