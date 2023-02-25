@@ -50,7 +50,7 @@ IHost host = Host.CreateDefaultBuilder(args)
                         into.Projection<ProjectConfirmationMail>();
                     });
                    
-        });
+            });
 
             runtimeConfiguration.AtomicProcessingPipeline(pipeline =>
             {

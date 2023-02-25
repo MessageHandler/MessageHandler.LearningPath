@@ -14,7 +14,7 @@ namespace OrderBooking.UnitTests
 
             //when
             var purchaseOrder = new PurchaseOrder();
-            booking.PlacePurchaseOrder(purchaseOrder, "Mr. Buyer");
+            booking.PlacePurchaseOrder(purchaseOrder, "buyer1", "Mr. Buyer");
 
             //then
             var pendingEvents = booking.Commit();
@@ -31,8 +31,8 @@ namespace OrderBooking.UnitTests
 
             //when
             var purchaseOrder = new PurchaseOrder();
-            booking.PlacePurchaseOrder(purchaseOrder, "Mr. Buyer");
-            booking.PlacePurchaseOrder(purchaseOrder, "Mr. Buyer");
+            booking.PlacePurchaseOrder(purchaseOrder, "buyer1", "Mr. Buyer");
+            booking.PlacePurchaseOrder(purchaseOrder, "buyer1", "Mr. Buyer");
 
             //then
             var pendingEvents = booking.Commit();
@@ -49,7 +49,7 @@ namespace OrderBooking.UnitTests
 
             //when
             var purchaseOrder = new PurchaseOrder();
-            booking.PlacePurchaseOrder(purchaseOrder, "Mr. Buyer");
+            booking.PlacePurchaseOrder(purchaseOrder, "buyer1", "Mr. Buyer");
 
             //then
             var pendingEvents = booking.Commit();

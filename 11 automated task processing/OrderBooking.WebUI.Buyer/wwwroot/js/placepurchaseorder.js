@@ -54,8 +54,7 @@
 
         let cmd = {
             bookingId: bookingId,
-            //buyerId: "8238c178-afe9-4f37-b23c-5df55399b7f8",
-            buyerId: "f77f01fd-3a63-4ec8-9d22-bffca216ee04",
+            buyerId: "buyer1",
             name: "Mr. Buyer",
             purchaseOrder: {               
                 amount: event.target.querySelector("#amount").valueAsNumber
