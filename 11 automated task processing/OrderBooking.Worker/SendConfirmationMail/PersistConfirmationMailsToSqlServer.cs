@@ -47,7 +47,7 @@ namespace OrderBooking.Worker
             };
         }
 
-        public async Task Persist(ConfirmationMail mail)
+        public async Task Insert(ConfirmationMail mail)
         {
             var connection = new SqlConnection(connectionstring);
             connection.Open();
@@ -62,13 +62,13 @@ namespace OrderBooking.Worker
             await command.ExecuteNonQueryAsync();
         }
 
-        public async Task MarkAsPending(ConfirmationMail mail)
+        public async Task Update(ConfirmationMail mail)
         {
             var connection = new SqlConnection(connectionstring);
             connection.Open();
 
             using var command = new SqlCommand(updateSqlCommand, connection);
-            command.Parameters.AddWithValue("@status", "Pending");
+            command.Parameters.AddWithValue("@status", mail.Status);
             command.Parameters.AddWithValue("@orderId", mail.OrderId);
             await command.ExecuteNonQueryAsync();
         }

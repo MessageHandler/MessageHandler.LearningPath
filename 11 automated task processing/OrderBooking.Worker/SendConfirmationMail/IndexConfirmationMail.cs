@@ -25,7 +25,7 @@ namespace OrderBooking.Worker
 
             _projection.Invoke(confirmationMail, message);
 
-            await _client.Persist(confirmationMail);
+            await _client.Insert(confirmationMail);
 
             _logger?.LogInformation("Confirmation mail indexed");
         }

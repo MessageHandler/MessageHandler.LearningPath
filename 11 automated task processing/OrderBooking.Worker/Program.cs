@@ -52,6 +52,12 @@ IHost host = Host.CreateDefaultBuilder(args)
                         into.Projection<ProjectConfirmationMail>();
                         into.Projection<ProjectNotificationPreferences>();
                     });
+
+                source.Stream("NotificationPreferences",
+                   from => from.AzureTableStorage(storageConnectionString, "NotificationPreferences"),
+                   into => {
+                       into.Projection<ProjectNotificationPreferences>();
+                   });
             });
 
             runtimeConfiguration.AtomicProcessingPipeline(pipeline =>

@@ -4,8 +4,8 @@
     {
         Task<ConfirmationMail?> GetConfirmationMail(string id);
 
-        Task Persist(ConfirmationMail mail);
+        Task Insert(ConfirmationMail mail);
 
-        Task MarkAsPending(ConfirmationMail mail);
+        Task Update(ConfirmationMail mail);
     }
 }

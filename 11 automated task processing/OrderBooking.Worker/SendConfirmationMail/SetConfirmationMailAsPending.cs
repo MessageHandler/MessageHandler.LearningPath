@@ -21,11 +21,11 @@ namespace OrderBooking.Worker
         {
             _logger?.LogInformation("Received SalesOrderConfirmed, marking the confirmation mail as pending...");
 
-            var confirmationMail = await _client.GetConfirmationMail(message.BookingId) ?? new ConfirmationMail();
+            var confirmationMail = await _client.GetConfirmationMail(message.BookingId);
 
             _projection.Invoke(confirmationMail, message);
 
-            await _client.MarkAsPending(confirmationMail);
+            await _client.Update(confirmationMail);
 
             _logger?.LogInformation("Sales order marked as pending");
         }
