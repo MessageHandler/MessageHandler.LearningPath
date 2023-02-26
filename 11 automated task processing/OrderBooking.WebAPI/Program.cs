@@ -55,14 +55,10 @@ builder.Services.AddMessageHandler("orderbooking", runtimeConfiguration =>
             into =>
             {
                 into.Aggregate<NotificationPreferences.NotificationPreferences>()
-                    .EnableTransientChannel<NotifySeller>()
                     .EnableOutbox("NotificationPreferences", "orderbooking.webapi", pipeline =>
                     {
                         pipeline.RouteMessages(to => to.Topic("notificationpreferences.events", serviceBusConnectionString));
                     });
-
-                into.Projection<BookingProjection>();
-
             });
     });
 });
