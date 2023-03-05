@@ -31,8 +31,9 @@ IHost host = Host.CreateDefaultBuilder(args)
 
         services.AddSingleton<IPersistNotificationPreferences>(new PersistNotificationPreferencesToSqlServer(sqlServerConnectionString));
         services.AddSingleton<IPersistConfirmationMails>(new PersistConfirmationMailsToSqlServer(sqlServerConnectionString));
-        services.AddSingleton<IProcessAvailableConfirmationMails>(new AvailableConfirmationMails(sqlServerConnectionString));
-        services.AddHostedService<SendConfirmationMail>();
+        services.AddSingleton<IPersistAvailableConfirmationMails>(new PersistAvailableConfirmationMails(sqlServerConnectionString));
+        services.AddSingleton<SendAvailableConfirmationMails>();
+        services.AddHostedService<ConfirmationMailWorker>();
 
         services.AddMessageHandler("orderbooking.worker", runtimeConfiguration =>
         {            

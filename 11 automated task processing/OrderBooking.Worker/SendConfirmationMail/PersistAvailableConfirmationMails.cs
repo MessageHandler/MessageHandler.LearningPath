@@ -3,16 +3,16 @@ using System.Data.SqlClient;
 
 namespace OrderBooking.Worker
 {
-    public class AvailableConfirmationMails : IProcessAvailableConfirmationMails
+    public class PersistAvailableConfirmationMails : IPersistAvailableConfirmationMails
     {
         private string connectionstring;
 
-        public AvailableConfirmationMails(string connectionstring)
+        public PersistAvailableConfirmationMails(string connectionstring)
         {
             this.connectionstring = connectionstring;
         }
 
-        private readonly string startProcessingSqlCommand =
+        private readonly string getAvailableConfirmationMailSqlCommand =
 @"WITH task AS (
 SELECT TOP(1) [dbo].[SalesOrderConfirmations].*, [dbo].[NotificationPreferences].EmailAddress as BuyerEmailAddress
 FROM[dbo].[SalesOrderConfirmations]
@@ -29,14 +29,14 @@ OUTPUT
     deleted.EmailBody,
     inserted.Status;";
 
-        private readonly string endProcessingSqlCommand = @"UPDATE [dbo].[SalesOrderConfirmations] SET[Status] = @status Where [OrderId] = @orderId;";
+        private readonly string updateAvailableConfirmationMailSqlCommand = @"UPDATE [dbo].[SalesOrderConfirmations] SET[Status] = @status Where [OrderId] = @orderId;";
 
-        public async Task<ConfirmationMail?> StartProcessing()
+        public async Task<ConfirmationMail?> GetAvailableConfirmationMail()
         {
             var connection = new SqlConnection(connectionstring);
             connection.Open();
 
-            using var command = new SqlCommand(startProcessingSqlCommand, connection);
+            using var command = new SqlCommand(getAvailableConfirmationMailSqlCommand, connection);
             using var dataReader = await command.ExecuteReaderAsync(CommandBehavior.SingleRow);
 
             if (!await dataReader.ReadAsync())
@@ -66,7 +66,7 @@ OUTPUT
             var connection = new SqlConnection(connectionstring);
             connection.Open();
 
-            using var command = new SqlCommand(endProcessingSqlCommand, connection);
+            using var command = new SqlCommand(updateAvailableConfirmationMailSqlCommand, connection);
             command.Parameters.AddWithValue("@status", "Sent");
             command.Parameters.AddWithValue("@orderId", mail.OrderId);
             await command.ExecuteNonQueryAsync();
@@ -77,7 +77,7 @@ OUTPUT
             var connection = new SqlConnection(connectionstring);
             connection.Open();
 
-            using var command = new SqlCommand(endProcessingSqlCommand, connection);
+            using var command = new SqlCommand(updateAvailableConfirmationMailSqlCommand, connection);
             command.Parameters.AddWithValue("@status", "Pending");
             command.Parameters.AddWithValue("@orderId", mail.OrderId);
             await command.ExecuteNonQueryAsync();
