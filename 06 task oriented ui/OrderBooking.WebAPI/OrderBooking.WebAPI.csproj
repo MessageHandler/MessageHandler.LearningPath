@@ -12,8 +12,8 @@
   </ItemGroup>
 
    <ItemGroup>
-	 <PackageReference Include="MessageHandler.Runtime" Version="4.0.0-beta15" />
-	 <PackageReference Include="MessageHandler.EventSourcing.AzureTableStorage" Version="4.0.0-beta19" />
+	 <PackageReference Include="MessageHandler.Runtime" Version="4.0.0-rc1" />
+	 <PackageReference Include="MessageHandler.EventSourcing.AzureTableStorage" Version="4.0.0-rc1" />
    </ItemGroup>
 
    <ItemGroup>
