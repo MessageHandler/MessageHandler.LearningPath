@@ -10,7 +10,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
-	<PackageReference Include="MessageHandler.Runtime.AtomicProcessing" Version="4.0.0-rc1" />
+	<PackageReference Include="MessageHandler.Runtime.AtomicProcessing" Version="4.0.0" />
 	<PackageReference Include="Postmark" Version="4.7.6" />
   </ItemGroup>
 
