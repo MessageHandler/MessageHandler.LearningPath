@@ -100,43 +100,10 @@ app.UseAuthorization();
 
 app.MapHub<EventsHub>("/events");
 
-app.MapPost("api/orderbooking/{id}", 
-async (IEventSourcedRepository<OrderAggregate> repo, string id, PlacePurchaseOrder command) =>
-{
-    var booking = await repo.Get(id);
-    booking.PlacePurchaseOrder(command.PurchaseOrder, command.BuyerId, command.Name);
 
-    await repo.Flush();
-
-    return Results.Ok(booking.Id);
-});
-app.MapGet("api/orderbooking/{id}", async(IRestoreProjections<Booking> projector, string id) =>
-    Results.Ok(await projector.Restore(nameof(OrderAggregate), id))
+app.UseOrderBooking((builder) => builder.MapGroup("api/orderbooking").WithTags("Bookings"));
+app.UseNotificationPreferences((builder) =>
+    builder.MapGroup("api/notificationpreferences").WithTags("Notifications")
 );
-app.MapGet("api/orderbooking/pending", async(SearchClient client) =>
-{
-    var response = await client.SearchAsync<SalesOrder>("*");
-    var pendingOrders = response.Value.GetResults().Select(x => x.Document);
-
-    return TypedResults.Ok(pendingOrders);
-});
-app.MapPost("api/orderbooking/{bookingId}/confirm",
-async (IEventSourcedRepository<OrderAggregate> repo, string bookingId) =>
-{
-    var aggregate = await repo.Get(bookingId);
-    aggregate.ConfirmSalesOrder();
-    await repo.Flush();
-
-    return Results.Ok(aggregate.Id);
-});
-app.MapPost("api/notificationpreferences/{buyerId}",
-async(IEventSourcedRepository<NotificationAggregate> repo, string buyerId, SetConfirmationMail command) =>
-{
-    var aggregate = await repo.Get(buyerId);
-    aggregate.SetConfirmationEmail(command.EmailAddress);
-    await repo.Flush();
-
-    return Results.Ok(aggregate.Id);
-});
 
 app.Run();
