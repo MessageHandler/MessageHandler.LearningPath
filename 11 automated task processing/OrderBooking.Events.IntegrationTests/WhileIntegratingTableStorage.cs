@@ -46,7 +46,7 @@ namespace OrderBooking.IntegrationTests
                 TargetBranchParentId = started.EventId
             };
 
-            var eventStream = new SourcedEvent[] { confirmed, started }; // will be reordered
+            SourcedEvent[] eventStream = [ confirmed, started ]; // will be reordered
 
             var eventSource = new AzureTableStorageEventSource(connectionString, tableName);
 

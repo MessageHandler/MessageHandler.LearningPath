@@ -5,14 +5,9 @@ namespace OrderBooking.WebAPI.Controllers
 {
     [ApiController]
     [Route("api/orderbooking")]
-    public class CommandController : ControllerBase
+    public class CommandController(IEventSourcedRepository<OrderBooking> repo) : ControllerBase
     {
-        private IEventSourcedRepository<OrderBooking> repository;
-
-        public CommandController(IEventSourcedRepository<OrderBooking> repository)
-        {
-            this.repository = repository;
-        }
+        private IEventSourcedRepository<OrderBooking> repository = repo;
 
         [HttpPost("{bookingId}")]
         public async Task<IActionResult> Book([FromRoute] string bookingId, [FromBody] PlacePurchaseOrder command)

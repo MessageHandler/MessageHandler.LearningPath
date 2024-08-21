@@ -14,22 +14,22 @@ namespace OrderBooking.ComponentTests
 {
     public class WhenReactingToBookingStarted
     {
+        private readonly Mock<IClientProxy> mockClientProxy = new();
+        private readonly Mock<IHubClients> mockHubClients = new();
+        private readonly Mock<IHubContext<EventsHub>> mockHubContext = new();
+        private readonly Mock<IEmailService> mockEmailService = new();
+        public ReactingToBookingStarted()
+        {
+            mockClientProxy.Setup(x => x.SendCoreAsync("Notify", new object?[0], It.IsAny<CancellationToken>()));
+            mockHubClients.Setup(x => x.Group("all")).Returns(mockClientProxy.Object).Verifiable();
+            mockHubContext.Setup(x => x.Clients).Returns(mockHubClients.Object).Verifiable();
+            mockEmailService.Setup(x => x.SendAsync(It.IsAny<string>())).Returns(Task.CompletedTask).Verifiable();
+        }
         [Fact]
         public async Task GivenBookingStarted_WhenNotifyingTheSeller_ShouldForwardMessageToSignal()
         {
             // given
             var bookingStarted = new BookingStarted();
-
-            // mock signalr
-            var mockGroups = new Mock<IClientProxy>();
-            mockGroups.Setup(_ => _.SendCoreAsync("Notify", It.Is<object?[]>(o => o.Contains(bookingStarted)), It.IsAny<CancellationToken>())).Verifiable();
-
-            var mockClients = new Mock<IHubClients>();
-            mockClients.Setup(_ => _.Group("all")).Returns(mockGroups.Object).Verifiable();
-
-            Mock<IHubContext<EventsHub>> mockContext = new Mock<IHubContext<EventsHub>>();
-            mockContext.Setup(_ => _.Clients).Returns(mockClients.Object).Verifiable();            
-
             //when
             var reaction = new NotifySeller(mockContext.Object);
             await reaction.Push(new[] { bookingStarted });
@@ -45,11 +45,7 @@ namespace OrderBooking.ComponentTests
         {
             // given
             var bookingStarted = new BookingStarted();
-
-            // mock email
-            var mockEmailSender = new Mock<ISendEmails>();
-            mockEmailSender.Setup(_ => _.SendAsync("sender@seller.com", "seller@seller.com", "New purchase order", "A new purchase order is available for approval")).Verifiable();
-
+            
             //when
             var reaction = new SendNotificationMail(mockEmailSender.Object);
             await reaction.Handle(bookingStarted, null!);

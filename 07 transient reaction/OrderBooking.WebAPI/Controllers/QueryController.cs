@@ -6,9 +6,9 @@ namespace OrderBooking.WebAPI.Controllers
 {
     [Route("api/orderbooking")]
     [ApiController]
-    public class QueryController : ControllerBase
+    public class QueryController(IRestoreProjections<Booking> proj) : ControllerBase
     {
-        private IRestoreProjections<Booking> projection;
+        private IRestoreProjections<Booking> projection = proj;
 
         public QueryController(IRestoreProjections<Booking> projection)
         {

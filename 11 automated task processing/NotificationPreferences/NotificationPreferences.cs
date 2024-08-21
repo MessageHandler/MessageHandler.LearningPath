@@ -6,7 +6,7 @@ namespace NotificationPreferences
     public class NotificationPreferences : EventSourced,
         IApply<ConfirmationEmailSet>
     {
-        private string _email;
+        private string _email = string.Empty;
 
         public NotificationPreferences() : this(Guid.NewGuid().ToString())
         {

@@ -7,16 +7,10 @@ namespace OrderBooking.WebAPI.Controllers
 {
     [Route("api/orderbooking")]
     [ApiController]
-    public class QueryController : ControllerBase
+    public class QueryController(IRestoreProjections<Booking> proj, SearchClient search) : ControllerBase
     {
-        private IRestoreProjections<Booking> projection;
-        private SearchClient _search;
-
-        public QueryController(IRestoreProjections<Booking> projection, SearchClient search)
-        {
-            this.projection = projection;
-            _search = search;
-        }
+        private IRestoreProjections<Booking> projection = proj;
+        private SearchClient _search = search;
 
         [HttpGet("{bookingId}")]
         public async Task<IActionResult> Get([FromRoute] string bookingId)
