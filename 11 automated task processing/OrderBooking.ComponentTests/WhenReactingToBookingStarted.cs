@@ -14,22 +14,22 @@ namespace OrderBooking.ComponentTests
 {
     public class WhenReactingToBookingStarted
     {
-        private readonly Mock<IClientProxy> mockClientProxy = new();
-        private readonly Mock<IHubClients> mockHubClients = new();
-        private readonly Mock<IHubContext<EventsHub>> mockHubContext = new();
-        private readonly Mock<IEmailService> mockEmailService = new();
-        public ReactingToBookingStarted()
+        private readonly Mock<IClientProxy> mockGroups = new();
+        private readonly Mock<IHubClients> mockClients = new();
+        private readonly Mock<IHubContext<EventsHub>> mockContext = new();
+        private readonly Mock<ISendEmails> mockEmailSender = new();
+        public WhenReactingToBookingStarted()
         {
-            mockClientProxy.Setup(x => x.SendCoreAsync("Notify", new object?[0], It.IsAny<CancellationToken>()));
-            mockHubClients.Setup(x => x.Group("all")).Returns(mockClientProxy.Object).Verifiable();
-            mockHubContext.Setup(x => x.Clients).Returns(mockHubClients.Object).Verifiable();
-            mockEmailService.Setup(x => x.SendAsync(It.IsAny<string>())).Returns(Task.CompletedTask).Verifiable();
+            mockGroups.Setup(x => x.SendCoreAsync("Notify", new object?[0], It.IsAny<CancellationToken>()));
+            mockClients.Setup(x => x.Group("all")).Returns(mockGroups.Object).Verifiable();
+            mockContext.Setup(x => x.Clients).Returns(mockClients.Object).Verifiable();
+            mockEmailSender.Setup(x => x.SendAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(Task.CompletedTask).Verifiable();
         }
         [Fact]
         public async Task GivenBookingStarted_WhenNotifyingTheSeller_ShouldForwardMessageToSignal()
         {
             // given
-            var bookingStarted = new BookingStarted();
+            var bookingStarted = new BookingStarted("", "", "", new PurchaseOrder(1));
             //when
             var reaction = new NotifySeller(mockContext.Object);
             await reaction.Push(new[] { bookingStarted });
@@ -44,7 +44,7 @@ namespace OrderBooking.ComponentTests
         public async Task GivenBookingStarted_WhenNotifyingTheSeller_ShouldSendAnEmailToTheSeller()
         {
             // given
-            var bookingStarted = new BookingStarted();
+            var bookingStarted = new BookingStarted("", "", "", new PurchaseOrder(1));
             
             //when
             var reaction = new SendNotificationMail(mockEmailSender.Object);

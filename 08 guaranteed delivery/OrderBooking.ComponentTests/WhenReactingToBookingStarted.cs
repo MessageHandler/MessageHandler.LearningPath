@@ -1,5 +1,6 @@
 ﻿using MessageHandler.EventSourcing.Contracts;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 using Moq;
 using OrderBooking.Events;
 using OrderBooking.WebAPI.SignalR;
@@ -51,7 +52,7 @@ namespace OrderBooking.ComponentTests
             mockEmailSender.Setup(_ => _.SendAsync("sender@seller.com", "seller@seller.com", "New purchase order", "A new purchase order is available for approval")).Verifiable();
 
             //when
-            var reaction = new SendNotificationMail(mockEmailSender.Object);
+            var reaction = new SendNotificationMail(new Mock<ILogger<SendNotificationMail>>().Object, mockEmailSender.Object);
             await reaction.Handle(bookingStarted, null);
 
             // Then
