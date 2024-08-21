@@ -22,23 +22,14 @@ namespace OrderBooking
         {
             if (_allreadyStarted) return;
 
-            Emit(new BookingStarted()
-            {
-                BookingId = Id,
-                BuyerId = buyerId,
-                Name = name,
-                PurchaseOrder = purchaseOrder
-            });
+            Emit(new BookingStarted(Id, buyerId, name, purchaseOrder));
         }
 
         public void ConfirmSalesOrder()
         {
             if (_confirmed) return;
 
-            Emit(new SalesOrderConfirmed()
-            {
-                BookingId = Id
-            });
+            Emit(new SalesOrderConfirmed(Id));
         }
 
         public void Apply(BookingStarted msg)

@@ -1,9 +1,3 @@
-﻿namespace OrderBooking.WebAPI.Controllers
-{
-    public class SetConfirmationMail
-    {
-        public string BuyerId { get; set; } = string.Empty;
+﻿namespace OrderBooking.WebAPI.Controllers;
 
-        public string EmailAddress { get; set; } = string.Empty;
-    }
-}
+public record SetConfirmationMail(string BuyerId, string EmailAddress);
