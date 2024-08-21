@@ -2,6 +2,7 @@ using MessageHandler.EventSourcing;
 using MessageHandler.EventSourcing.AzureTableStorage;
 using MessageHandler.Runtime;
 using OrderBooking.Projections;
+using OrderBooking.WebAPI;
 using OrderBooking.WebAPI.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -63,5 +64,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.MapHub<EventsHub>("/events");
+
+app.UseOrderBooking((builder) => builder.MapGroup("api/orderbooking").WithTags("Bookings"));
 
 app.Run();
