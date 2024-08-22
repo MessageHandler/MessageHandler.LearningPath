@@ -1,18 +1,11 @@
-using Azure.Search.Documents;
 using MessageHandler.EventSourcing;
 using MessageHandler.EventSourcing.AzureTableStorage;
-using MessageHandler.EventSourcing.DomainModel;
 using MessageHandler.EventSourcing.Outbox;
-using MessageHandler.EventSourcing.Projections;
 using MessageHandler.Runtime;
 using MessageHandler.Runtime.AtomicProcessing;
-using NotificationPreferences;
 using OrderBooking.Projections;
 using OrderBooking.WebAPI;
-using OrderBooking.WebAPI.Controllers;
 using OrderBooking.WebAPI.SignalR;
-using OrderAggregate = OrderBooking.OrderBooking;
-using NotificationAggregate = NotificationPreferences.NotificationPreferences;
 
 var builder = WebApplication.CreateBuilder(args);
 
