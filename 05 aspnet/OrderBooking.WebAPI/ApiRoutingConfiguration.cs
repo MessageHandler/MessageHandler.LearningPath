@@ -2,6 +2,7 @@ using MessageHandler.EventSourcing.DomainModel;
 using Booking = OrderBooking.OrderBooking;
 using OrderBooking.WebAPI.Controllers;
 using MessageHandler.EventSourcing.Projections;
+using OrderBooking.Projections;
 
 namespace OrderBooking.WebAPI;
 
@@ -13,20 +14,20 @@ public static class ApiRoutingConfiguration
     {
         var orderBookings = groupBuilder(builder);
 
-        orderBookings.MapPost("{id}",
-        async (IEventSourcedRepository<Booking> repo, string id, PlacePurchaseOrder cmd) =>
+        orderBookings.MapPost("{bookingId}",
+        async (IEventSourcedRepository<Booking> repo, string bookingId, PlacePurchaseOrder cmd) =>
         {
-            var booking = await repo.Get(id);
+            var booking = await repo.Get(bookingId);
             booking.PlacePurchaseOrder(cmd.PurchaseOrder, cmd.Name);
 
             await repo.Flush();
 
-            return Results.Created($"api/orderbooking/{id}", booking.Id);
+            return Results.Created($"api/orderbooking/{bookingId}", booking.Id);
         })
-        .Produces(StatusCodes.Status201Created);;
+        .Produces(StatusCodes.Status201Created);
 
-        orderBookings.MapGet("{id}", async(IRestoreProjections<Booking> projector, string id) =>
-            Results.Ok(await projector.Restore(nameof(Booking), id))
+        orderBookings.MapGet("{bookingId}", async(IRestoreProjections<Booking> projector, string bookingId) =>
+            Results.Ok(await projector.Restore(nameof(Booking), bookingId))
         ).Produces(StatusCodes.Status200OK);
 
         return orderBookings;

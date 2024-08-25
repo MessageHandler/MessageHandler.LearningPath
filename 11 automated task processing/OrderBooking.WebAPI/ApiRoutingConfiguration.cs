@@ -33,14 +33,15 @@ public static class ApiRoutingConfiguration
 
         orderBookings.MapGet("pending", async(SearchClient client) =>
         {
-            var response = await client.SearchAsync<SalesOrder>("*");
+            var filter = "Status eq 'Pending'";
+            var response = await client.SearchAsync<SalesOrder>("*", new SearchOptions() { Filter = filter, Size = 1000 });
             var pendingOrders = response.Value.GetResults().Select(x => x.Document);
 
             return TypedResults.Ok(pendingOrders);
         })
         .Produces(StatusCodes.Status200OK);
 
-        orderBookings.MapPost("{bookingId}/confirm",
+        orderBookings.MapPut("{bookingId}/confirm",
         async (IEventSourcedRepository<Booking> repo, string bookingId) =>
         {
             var aggregate = await repo.Get(bookingId);

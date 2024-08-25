@@ -58,6 +58,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.UseOrderBooking((builder) => builder.MapGroup("api/orderbooking").WithTags("Bookings"));
+app.UseOrderBooking((builder) => builder.MapGroup("api/orderbooking").WithTags("OrderBooking"));
 
 app.Run();
