@@ -1,7 +1,3 @@
-﻿namespace OrderBooking.WebAPI.Controllers
-{
-    public class ConfirmSalesOrder
-    {
-        public string BookingId { get; set; } = string.Empty;
-    }
-}
+﻿namespace OrderBooking.WebAPI.Controllers;
+
+public record ConfirmSalesOrder(string BookingId);

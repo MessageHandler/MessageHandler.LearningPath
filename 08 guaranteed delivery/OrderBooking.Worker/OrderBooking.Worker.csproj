@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <!-- <TargetFramework>net6.0</TargetFramework> -->
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-OrderBooking.Worker-43337D11-DFD4-4A02-BD3B-C6072BBB17BB</UserSecretsId>

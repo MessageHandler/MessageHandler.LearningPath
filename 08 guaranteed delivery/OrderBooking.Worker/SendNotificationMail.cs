@@ -3,16 +3,12 @@ using OrderBooking.Events;
 
 namespace OrderBooking.Worker
 {
-    public class SendNotificationMail : IHandle<BookingStarted>
+    public class SendNotificationMail(
+        ILogger<SendNotificationMail> _logger,
+        ISendEmails _emailSender) : IHandle<BookingStarted>
     {
-        private readonly ILogger<SendNotificationMail> logger;
-        private readonly ISendEmails emailSender;
-
-        public SendNotificationMail(ISendEmails emailSender, ILogger<SendNotificationMail> logger = null!)
-        {
-            this.logger = logger;
-            this.emailSender = emailSender;
-        }
+        private readonly ILogger<SendNotificationMail> logger = _logger;
+        private readonly ISendEmails emailSender = _emailSender;
 
         public async Task Handle(BookingStarted message, IHandlerContext context)
         {

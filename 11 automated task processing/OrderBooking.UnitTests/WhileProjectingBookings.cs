@@ -14,10 +14,7 @@ namespace OrderBooking.UnitTests
             // given
             var history = new SourcedEvent[]
             {
-                new BookingStarted
-                {
-                    PurchaseOrder = new PurchaseOrder()
-                }
+                new BookingStarted("", "", "", new PurchaseOrder(1))
             };
             var booking = new Booking();
 
@@ -35,14 +32,8 @@ namespace OrderBooking.UnitTests
             // given
             var history = new SourcedEvent[]
             {
-                new BookingStarted
-                {
-                    PurchaseOrder = new PurchaseOrder()
-                },
-                new SalesOrderConfirmed
-                {
-
-                }
+                new  BookingStarted("", "", "", new PurchaseOrder(1)),
+                new SalesOrderConfirmed("")
             };
             var booking = new Booking();
 

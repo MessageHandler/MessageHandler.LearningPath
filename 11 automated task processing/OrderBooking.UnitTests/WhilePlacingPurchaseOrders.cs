@@ -13,7 +13,7 @@ namespace OrderBooking.UnitTests
             var booking = new OrderBooking();
 
             //when
-            var purchaseOrder = new PurchaseOrder();
+            var purchaseOrder = new PurchaseOrder(1);
             booking.PlacePurchaseOrder(purchaseOrder, "buyer1", "Mr. Buyer");
 
             //then
@@ -30,7 +30,7 @@ namespace OrderBooking.UnitTests
             var booking = new OrderBooking();
 
             //when
-            var purchaseOrder = new PurchaseOrder();
+            var purchaseOrder = new PurchaseOrder(1);
             booking.PlacePurchaseOrder(purchaseOrder, "buyer1", "Mr. Buyer");
             booking.PlacePurchaseOrder(purchaseOrder, "buyer1", "Mr. Buyer");
 
@@ -48,7 +48,7 @@ namespace OrderBooking.UnitTests
             var booking = new OrderBooking();
 
             //when
-            var purchaseOrder = new PurchaseOrder();
+            var purchaseOrder = new PurchaseOrder(1);
             booking.PlacePurchaseOrder(purchaseOrder, "buyer1", "Mr. Buyer");
 
             //then

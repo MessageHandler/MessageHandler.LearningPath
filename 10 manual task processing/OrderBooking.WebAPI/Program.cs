@@ -81,4 +81,6 @@ app.MapControllers();
 
 app.MapHub<EventsHub>("/events");
 
+app.UseOrderBooking((builder) => builder.MapGroup("api/orderbooking").WithTags("Bookings"));
+
 app.Run();

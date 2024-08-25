@@ -1,15 +1,15 @@
 ﻿using MessageHandler.EventSourcing.Contracts;
 
-namespace OrderBooking.Events
+namespace OrderBooking.Events;
+
+public class BookingStarted(
+    string bookingId,
+    string buyerId,
+    string name,
+    PurchaseOrder purchaseOrder) : SourcedEvent
 {
-    public class BookingStarted : SourcedEvent
-    {
-        public string BookingId { get; set; } = string.Empty;
-
-        public string BuyerId { get; set; } = string.Empty;
-
-        public string Name { get; set; } = string.Empty;
-
-        public PurchaseOrder? PurchaseOrder { get; set; }
-    }
+    public string BookingId => bookingId;
+    public string BuyerId => buyerId;
+    public string Name => name;
+    public PurchaseOrder PurchaseOrder => purchaseOrder;
 }

@@ -91,8 +91,12 @@ app.UseCors("AllowAll");
 
 app.UseAuthorization();
 
-app.MapControllers();
-
 app.MapHub<EventsHub>("/events");
+
+
+app.UseOrderBooking((builder) => builder.MapGroup("api/orderbooking").WithTags("Bookings"));
+app.UseNotificationPreferences((builder) =>
+    builder.MapGroup("api/notificationpreferences").WithTags("Notifications")
+);
 
 app.Run();

@@ -4,6 +4,7 @@ using MessageHandler.EventSourcing.Outbox;
 using MessageHandler.Runtime;
 using MessageHandler.Runtime.AtomicProcessing;
 using OrderBooking.Projections;
+using OrderBooking.WebAPI;
 using OrderBooking.WebAPI.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -72,5 +73,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.MapHub<EventsHub>("/events");
+
+app.UseOrderBooking((builder) => builder.MapGroup("api/orderbooking").WithTags("Bookings"));
 
 app.Run();

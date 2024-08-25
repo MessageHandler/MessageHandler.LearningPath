@@ -14,22 +14,22 @@ namespace OrderBooking.ComponentTests
 {
     public class WhenReactingToBookingStarted
     {
+        private readonly Mock<IClientProxy> mockGroups = new();
+        private readonly Mock<IHubClients> mockClients = new();
+        private readonly Mock<IHubContext<EventsHub>> mockContext = new();
+        private readonly Mock<ISendEmails> mockEmailSender = new();
+        public WhenReactingToBookingStarted()
+        {
+            mockGroups.Setup(x => x.SendCoreAsync("Notify", new object?[0], It.IsAny<CancellationToken>()));
+            mockClients.Setup(x => x.Group("all")).Returns(mockGroups.Object).Verifiable();
+            mockContext.Setup(x => x.Clients).Returns(mockClients.Object).Verifiable();
+            mockEmailSender.Setup(x => x.SendAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(Task.CompletedTask).Verifiable();
+        }
         [Fact]
         public async Task GivenBookingStarted_WhenNotifyingTheSeller_ShouldForwardMessageToSignal()
         {
             // given
-            var bookingStarted = new BookingStarted();
-
-            // mock signalr
-            var mockGroups = new Mock<IClientProxy>();
-            mockGroups.Setup(_ => _.SendCoreAsync("Notify", It.Is<object?[]>(o => o.Contains(bookingStarted)), It.IsAny<CancellationToken>())).Verifiable();
-
-            var mockClients = new Mock<IHubClients>();
-            mockClients.Setup(_ => _.Group("all")).Returns(mockGroups.Object).Verifiable();
-
-            Mock<IHubContext<EventsHub>> mockContext = new Mock<IHubContext<EventsHub>>();
-            mockContext.Setup(_ => _.Clients).Returns(mockClients.Object).Verifiable();            
-
+            var bookingStarted = new BookingStarted("", "", "", new PurchaseOrder(1));
             //when
             var reaction = new NotifySeller(mockContext.Object);
             await reaction.Push(new[] { bookingStarted });
@@ -44,12 +44,8 @@ namespace OrderBooking.ComponentTests
         public async Task GivenBookingStarted_WhenNotifyingTheSeller_ShouldSendAnEmailToTheSeller()
         {
             // given
-            var bookingStarted = new BookingStarted();
-
-            // mock email
-            var mockEmailSender = new Mock<ISendEmails>();
-            mockEmailSender.Setup(_ => _.SendAsync("sender@seller.com", "seller@seller.com", "New purchase order", "A new purchase order is available for approval")).Verifiable();
-
+            var bookingStarted = new BookingStarted("", "", "", new PurchaseOrder(1));
+            
             //when
             var reaction = new SendNotificationMail(mockEmailSender.Object);
             await reaction.Handle(bookingStarted, null!);
